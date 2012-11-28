@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+<audio></audio>
+<input onclick="startRecording()" type="button" value="start recording" />
+<input onclick="stopRecording()" type="button" value="stop recording and play" />
+<div></div>
+<!--
+<form enctype="multipart/form-data">
+<input name="file" type="file" />
+<input type="button" value="Upload" />
+</form>
+-->
+
+<script>
+  var onFailed = function(e) {
+    console.log('sorry :(', e);
+  };
+
+window.URL = window.URL || window.webkitURL;
+navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                          navigator.mozGetUserMedia || navigator.msGetUserMedia || 
+var localStream
+
+var audio = document.querySelector('audio');
+var stop = document.getElementById('stop');
+
+
+    function startRecording(){
+        if (navigator.getUserMedia) {
+          navigator.getUserMedia({audio: true, video: false, toString : function() {return "video,audio";}}, function(stream) {
+            audio.src = window.URL.createObjectURL(stream);
+        document.getElementsByTagName('div')[0].innerHTML = audio.src;
+            localStream = stream;
+          }, onFailed);
+        } else {
+            alert('Unsupported');
+          //audio.src = 'someaudio.ogg'; // fallback.
+        }
+    }
+
+
+
+    function stopRecording(){
+        localStream.stop();
+        audio.play();
+    }
+
+
+    function sendAudio(){
+
+    }
+</script>
+
+</body>
+</html>
